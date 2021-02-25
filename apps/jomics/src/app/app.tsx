@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './app.module.scss';
 
@@ -6,6 +6,19 @@ import { ReactComponent as Logo } from './logo.svg';
 import star from './star.svg';
 
 export function App() {
+  useEffect(() => {
+    const {
+      NX_MARVEL_BASE_URL,
+      NX_MARVEL_HASH,
+      NX_MARVEL_TS,
+      NX_MARVEL_API_KEY,
+    } = process.env;
+    fetch(
+      `${NX_MARVEL_BASE_URL}comics?ts=${NX_MARVEL_TS}&apikey=${NX_MARVEL_API_KEY}&hash=${NX_MARVEL_HASH}`
+    )
+      .then((_) => _.json())
+      .then((data) => console.log(data));
+  }, []);
   return (
     <div className={styles.app}>
       <header className="flex">
