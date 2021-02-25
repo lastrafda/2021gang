@@ -1,0 +1,122 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "defaultProject": "jomics",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "jomics": {
+      "root": "apps/jomics",
+      "sourceRoot": "apps/jomics/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/jomics",
+            "index": "apps/jomics/src/index.html",
+            "main": "apps/jomics/src/main.tsx",
+            "polyfills": "apps/jomics/src/polyfills.ts",
+            "tsConfig": "apps/jomics/tsconfig.app.json",
+            "assets": ["apps/jomics/src/favicon.ico", "apps/jomics/src/assets"],
+            "styles": ["apps/jomics/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/jomics/src/environments/environment.ts",
+                  "with": "apps/jomics/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "jomics:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "jomics:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/jomics/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/jomics"],
+          "options": {
+            "jestConfig": "apps/jomics/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "jomics-e2e": {
+      "root": "apps/jomics-e2e",
+      "sourceRoot": "apps/jomics-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/jomics-e2e/cypress.json",
+            "tsConfig": "apps/jomics-e2e/tsconfig.e2e.json",
+            "devServerTarget": "jomics:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "jomics:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/jomics-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
